@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_19_024214) do
+ActiveRecord::Schema.define(version: 2020_06_22_062536) do
 
   create_table "diagnoses", force: :cascade do |t|
     t.string "code"
@@ -18,6 +18,11 @@ ActiveRecord::Schema.define(version: 2020_06_19_024214) do
     t.string "description_short"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "moon_phases", force: :cascade do |t|
+    t.datetime "date"
+    t.float "frac_of_period_from_full_moon"
   end
 
   create_table "visits", force: :cascade do |t|
