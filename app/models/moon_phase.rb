@@ -30,4 +30,21 @@ class MoonPhase < ApplicationRecord
       memo }
   end
 
+  def phase
+
+    if self.frac_of_period_from_full_moon < -0.33
+      "Waxing Crescent"
+    elsif self.frac_of_period_from_full_moon < -0.17
+      "Waxing Gibbous"
+    elsif self.frac_of_period_from_full_moon < 0.17
+      "Full"
+    elsif self.frac_of_period_from_full_moon < 0.33
+      "Waning Gibbous"
+    elsif self.frac_of_period_from_full_moon <= 0.5
+      "Waning Crescent"
+    else
+      nil
+    end
+  end
+
 end
