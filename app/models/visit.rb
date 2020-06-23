@@ -7,4 +7,9 @@ class Visit < ApplicationRecord
   def moon_phase
     MoonPhase.find_by(date: self.date)
   end
+
+  def occured_during_full_moon?
+    self.moon_phase.is_full? ? true : false
+  end
+
 end
