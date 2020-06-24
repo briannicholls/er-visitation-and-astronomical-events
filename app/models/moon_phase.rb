@@ -8,6 +8,10 @@ class MoonPhase < ApplicationRecord
 
   scope :full_moons_2019, -> { MoonPhase.full_moons.where('date >= ? AND date < ?', Time.utc(2019).in_time_zone, Time.utc(2020).in_time_zone) }
 
+  def self.year(year)
+    where('date >= ? AND date < ? ', DateTime.parse("1/1/#{year}"), DateTime.parse("1/1/#{year + 1}"))
+  end
+
   def is_full?
     frac_of_period_from_full_moon.abs < 0.017 ? true : false
   end
@@ -17,12 +21,6 @@ class MoonPhase < ApplicationRecord
     Visit.where(date: self.date)
   end
 
-  # def self.full_moons_2019
-  #   MoonPhase.y2019.select do |e|
-  #     e.is_full?
-  #   end
-  # end
-
   # show diagnoses and frequency
   def diagnoses
     self.visits.reduce(Hash.new(0)) { |memo, e|
@@ -31,14 +29,13 @@ class MoonPhase < ApplicationRecord
   end
 
   def phase
-
-    if self.frac_of_period_from_full_moon < -0.33
+    if self.frac_of_period_from_full_moon <= -0.33
       "Waxing Crescent"
-    elsif self.frac_of_period_from_full_moon < -0.17
+    elsif self.frac_of_period_from_full_moon <= -0.04
       "Waxing Gibbous"
-    elsif self.frac_of_period_from_full_moon < 0.17
+    elsif self.frac_of_period_from_full_moon <= 0.04
       "Full"
-    elsif self.frac_of_period_from_full_moon < 0.33
+    elsif self.frac_of_period_from_full_moon <= 0.33
       "Waning Gibbous"
     elsif self.frac_of_period_from_full_moon <= 0.5
       "Waning Crescent"
@@ -46,5 +43,7 @@ class MoonPhase < ApplicationRecord
       nil
     end
   end
+
+
 
 end
